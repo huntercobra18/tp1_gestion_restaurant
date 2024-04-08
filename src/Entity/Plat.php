@@ -35,6 +35,9 @@ class Plat
     #[ORM\ManyToMany(targetEntity: CommandeClient::class, mappedBy: 'plat')]
     private Collection $commandeClients;
 
+    #[ORM\Column]
+    private ?bool $inMenu = null;
+
     public function __construct()
     {
         $this->composition = new ArrayCollection();
@@ -117,6 +120,18 @@ class Plat
         if ($this->commandeClients->removeElement($commandeClient)) {
             $commandeClient->removePlat($this);
         }
+
+        return $this;
+    }
+
+    public function isInMenu(): ?bool
+    {
+        return $this->inMenu;
+    }
+
+    public function setInMenu(bool $inMenu): static
+    {
+        $this->inMenu = $inMenu;
 
         return $this;
     }
